@@ -7,6 +7,27 @@ Simple way to separate model concerns into separate files. Code is from Rick Ols
 Example
 =======
 
+== for Controllers
+
+# app/controllers/application.rb
+class ApplicationController < ActionController::Base
+  concerned_with :rescues
+end
+
+# app/controllers/application_controller/rescues.rb
+class ApplicationController < ActionController::Base
+  rescue_from ActionController::RoutingError, :with => :route_not_found
+
+  protected
+
+  def route_not_found
+    render :text => 'Page is not exist', :status => :not_found
+  end
+end
+
+
+== for Models
+
 # app/models/user.rb
 class User < ActiveRecord::Base
   concerned_with :validations, :authentication
@@ -25,4 +46,4 @@ class User < ActiveRecord::Base
 end
 
 
-Copyright (c) 2008 Jake Howerton, released under the MIT license
+Copyright (c) 2008 Jake Howerton, updated by Zhurbiy Oleg( Ol.keene ), released under the MIT license
